@@ -1,0 +1,1723 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b1b1b" id="metaTheme">
+<title>Super IPTV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anek+Latin:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   SUPER MONEY DESIGN TOKENS (from super_money.css, cleaned)
+   ========================================================= */
+:root {
+  /* Colors — Primary */
+  --color-primary: #4d43fe;
+  --color-brand: #4d43fe;
+  --color-action: #4d43fe;
+
+  /* Ramp — primary (base is 600) */
+  --color-primary-50: #d7ecff;
+  --color-primary-100: #c9dfff;
+  --color-primary-200: #b5cbff;
+  --color-primary-300: #9aadff;
+  --color-primary-400: #7985ff;
+  --color-primary-500: #5f60ff;
+  --color-primary-600: #4d43fe;
+  --color-primary-700: #3d33d3;
+  --color-primary-800: #3124b4;
+  --color-primary-900: #271898;
+  --color-primary-950: #14055f;
+
+  /* Ramp — neutral (base is 950) */
+  --color-neutral-50: #f5f5f5;
+  --color-neutral-100: #eaeaea;
+  --color-neutral-200: #d9d9d9;
+  --color-neutral-300: #c0c0c0;
+  --color-neutral-400: #9f9f9f;
+  --color-neutral-500: #828282;
+  --color-neutral-600: #6c6c6c;
+  --color-neutral-700: #575757;
+  --color-neutral-800: #464646;
+  --color-neutral-900: #393939;
+  --color-neutral-950: #1b1b1b;
+
+  /* Colors — named neutrals (original duplicate keys renamed) */
+  --color-line: #e5e7eb;
+  --color-ink: #1b1b1b;
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-mute: #adacbe;
+  --color-ice: #eef4fe;
+
+  /* Backgrounds */
+  --color-bg: #ffffff;
+  --color-bg-1: #1b1b1b;
+  --color-bg-2: #4d43fe;
+  --color-bg-3: #e0eaff;
+
+  /* Text */
+  --color-text: #ffffff;
+  --color-text-1: #1b1b1b;
+  --color-text-2: #4d43fe;
+  --color-text-3: #adacbe;
+  --color-text-4: #eaecf0;
+
+  /* Semantic pairs */
+  --action-primary-bg: #4d43fe;
+  --action-primary-fg: #ffffff; /* 5.92:1 AA */
+
+  /* Typography */
+  --font-sans: 'Anek Latin', 'AnekLatin', sans-serif;
+  --font-font-1: 'Figtree', sans-serif;
+  --font-size-display: 240px;
+  --font-size-h1: 130px;
+  --font-size-h2: 72px;
+  --font-size-title-4: 32px;
+  --font-size-title-5: 28px;
+  --font-size-title-6: 24px;
+  --font-size-title-7: 22px;
+  --font-size-h3: 20px;
+  --font-size-title-8: 16px;
+  --font-size-body: 14px;
+
+  /* Layout */
+  --container-width: 1280px;
+  --section-rhythm: 150px;
+
+  /* Spacing */
+  --spacing-4: 4px;  --spacing-12: 12px; --spacing-16: 16px; --spacing-20: 20px;
+  --spacing-24: 24px; --spacing-32: 32px; --spacing-36: 36px; --spacing-40: 40px;
+  --spacing-48: 48px;
+
+  /* Radius */
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: rgba(74, 58, 255, 0.1) 0px 6px 16px 0px;
+  --shadow-sm: rgba(41, 30, 255, 0.45) 0px 8px 28px 0px;
+}
+
+/* =========================================================
+   APP THEME LAYER
+   ========================================================= */
+html[data-theme="dark"] {
+  --bg: var(--color-bg-1);
+  --surface: #242424;
+  --surface-2: #2e2e2e;
+  --surface-3: #393939;
+  --line: rgba(255,255,255,.09);
+  --text: #ffffff;
+  --muted: var(--color-text-3);
+  --accent-text: var(--color-primary-300);
+  --accent-soft: rgba(77,67,254,.22);
+  --card-shadow: 0 10px 30px rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+html[data-theme="light"] {
+  --bg: var(--color-ice);
+  --surface: #ffffff;
+  --surface-2: #f3f6fd;
+  --surface-3: var(--color-bg-3);
+  --line: rgba(27,27,27,.09);
+  --text: var(--color-text-1);
+  --muted: var(--color-neutral-600);
+  --accent-text: var(--color-primary-600);
+  --accent-soft: rgba(77,67,254,.10);
+  --card-shadow: 0 10px 30px rgba(41,30,255,.10);
+  color-scheme: light;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--font-font-1);
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100dvh;
+  transition: background .35s ease, color .35s ease;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; }
+[hidden] { display: none !important; }
+h1, h2, h3, .display { font-family: var(--font-sans); letter-spacing: -.02em; }
+.ic { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.ic.fill { fill: currentColor; }
+:focus-visible { outline: 2px solid var(--color-primary-400); outline-offset: 2px; border-radius: 8px; }
+::selection { background: var(--color-primary-600); color: #fff; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 10px; border: 2px solid var(--bg); }
+
+/* ---------- layout ---------- */
+.app { display: grid; grid-template-columns: 248px minmax(0,1fr); min-height: 100dvh; }
+.sidebar {
+  position: sticky; top: 0; height: 100dvh; padding: var(--spacing-24) var(--spacing-16);
+  display: flex; flex-direction: column; gap: var(--spacing-24);
+  border-right: 1px solid var(--line); background: var(--surface);
+  transition: background .35s ease;
+}
+.brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; font-family: var(--font-sans); font-weight: 700; font-size: 22px; letter-spacing: -.03em; }
+.brand-mark {
+  width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; color: #fff;
+  background: linear-gradient(135deg, var(--color-primary-400), var(--color-primary-700));
+  box-shadow: var(--shadow-sm);
+}
+.brand small { display: block; font-family: var(--font-font-1); font-weight: 500; font-size: 11px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-top: -2px; }
+.nav { display: flex; flex-direction: column; gap: 4px; }
+.nav-item {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: var(--radius-md);
+  color: var(--muted); font-weight: 600; text-align: left; position: relative;
+  transition: background .2s, color .2s, transform .15s;
+}
+.nav-item:hover { background: var(--surface-2); color: var(--text); }
+.nav-item:active { transform: scale(.98); }
+.nav-item.active { background: var(--accent-soft); color: var(--accent-text); }
+.nav-item.active::before { content: ""; position: absolute; left: -16px; top: 10px; bottom: 10px; width: 4px; border-radius: 0 4px 4px 0; background: var(--color-primary-500); }
+.nav-item .count { margin-left: auto; font-size: 12px; padding: 2px 8px; border-radius: var(--radius-full); background: var(--surface-2); color: var(--muted); }
+.nav-item.active .count { background: var(--color-primary-600); color: #fff; }
+.side-foot { margin-top: auto; padding: 16px; border-radius: var(--radius-lg); background: linear-gradient(160deg, var(--color-primary-600), var(--color-primary-900)); color: #fff; box-shadow: var(--shadow-xs); }
+.side-foot h4 { font-family: var(--font-sans); font-size: 16px; margin-bottom: 4px; }
+.side-foot p { font-size: 12.5px; opacity: .85; margin-bottom: 12px; }
+
+main { min-width: 0; padding: 0 var(--spacing-32) var(--spacing-48); max-width: calc(var(--container-width) + 64px); width: 100%; }
+.topbar { position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 12px; padding: 16px 0; background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.m-brand { display: none; align-items: center; gap: 10px; font-family: var(--font-sans); font-weight: 700; font-size: 18px; }
+.m-brand .brand-mark { width: 32px; height: 32px; border-radius: 10px; }
+.search { flex: 1; position: relative; max-width: 560px; }
+.search .ic { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input { width: 100%; padding: 12px 44px 12px 44px; border-radius: var(--radius-full); border: 1px solid var(--line); background: var(--surface); outline: none; transition: border-color .2s, box-shadow .2s; }
+.search input:focus { border-color: var(--color-primary-500); box-shadow: 0 0 0 4px var(--accent-soft); }
+.search kbd { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font: 600 11px var(--font-font-1); color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; }
+.search input:not(:placeholder-shown) ~ kbd { display: none; }
+.top-actions { display: flex; gap: 8px; margin-left: auto; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border-radius: var(--radius-full);
+  font-weight: 600; border: 1px solid transparent; transition: transform .15s, box-shadow .2s, background .2s; white-space: nowrap;
+}
+.btn:active { transform: scale(.96); }
+.btn-primary { background: var(--action-primary-bg); color: var(--action-primary-fg); box-shadow: var(--shadow-xs); }
+.btn-primary:hover { background: var(--color-primary-700); box-shadow: var(--shadow-sm); transform: translateY(-1px); }
+.btn-ghost { background: var(--surface); border-color: var(--line); color: var(--text); }
+.btn-ghost:hover { background: var(--surface-2); }
+.btn-danger { color: #ff6b6b; }
+.icon-btn { width: 44px; height: 44px; padding: 0; border-radius: 50%; }
+.btn[disabled] { opacity: .6; pointer-events: none; }
+
+/* ---------- hero ---------- */
+.hero { position: relative; overflow: hidden; border-radius: 28px; padding: clamp(28px, 6vw, 72px); margin-top: 8px; background: linear-gradient(160deg, var(--color-primary-950), #0e0338 70%); color: #fff; isolation: isolate; animation: fadeUp .6s both; }
+.orb { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; z-index: -1; animation: float 14s ease-in-out infinite; }
+.orb.a { width: 340px; height: 340px; background: var(--color-primary-600); top: -80px; right: -60px; }
+.orb.b { width: 260px; height: 260px; background: var(--color-primary-300); bottom: -90px; left: 10%; animation-delay: -5s; opacity: .35; }
+.orb.c { width: 200px; height: 200px; background: var(--color-primary-500); top: 30%; left: 55%; animation-delay: -9s; opacity: .4; }
+.hero .tag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: var(--radius-full); background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+.hero h1 { font-size: clamp(42px, 8.5vw, var(--font-size-h2)); line-height: .98; font-weight: 700; letter-spacing: -.04em; max-width: 14ch; }
+.hero h1 span { background: linear-gradient(90deg, #fff, var(--color-primary-300)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p { margin: 20px 0 28px; max-width: 46ch; color: var(--color-text-4); opacity: .85; font-size: clamp(15px, 2vw, 18px); }
+.hero .cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.hero .btn-ghost { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); color: #fff; }
+.hero .btn-ghost:hover { background: rgba(255,255,255,.18); }
+.hero .btn-primary { background: #fff; color: var(--color-primary-700); }
+.hero-tv { position: absolute; right: clamp(-40px, 3vw, 40px); bottom: -30px; width: clamp(160px, 30vw, 380px); opacity: .12; z-index: -1; }
+.hero-tv .ic { width: 100%; height: auto; stroke-width: 1; }
+
+/* ---------- stage / player ---------- */
+.stage { display: grid; grid-template-columns: minmax(0,1fr) 340px; gap: 20px; margin-top: 8px; animation: fadeUp .5s both; }
+.player { position: relative; aspect-ratio: 16/9; background: #000; border-radius: var(--radius-xl); overflow: hidden; box-shadow: var(--shadow-sm); color: #fff; isolation: isolate; user-select: none; }
+.player video { width: 100%; height: 100%; display: block; background: #000; object-fit: contain; }
+.player:fullscreen, .player:-webkit-full-screen { border-radius: 0; aspect-ratio: auto; width: 100vw; height: 100vh; }
+.p-top, .p-controls { position: absolute; left: 0; right: 0; padding: 18px; z-index: 3; transition: opacity .35s ease, transform .35s ease; }
+.p-top { top: 0; display: flex; align-items: center; gap: 12px; background: linear-gradient(180deg, rgba(0,0,0,.75), transparent); padding-bottom: 40px; }
+.p-top h3 { font-size: 18px; font-weight: 600; line-height: 1.15; }
+.p-top small { color: var(--color-text-3); font-size: 12.5px; }
+.p-controls { bottom: 0; display: flex; align-items: center; gap: 6px; background: linear-gradient(0deg, rgba(0,0,0,.85), transparent); padding-top: 48px; }
+.player.idle .p-top { opacity: 0; transform: translateY(-8px); pointer-events: none; }
+.player.idle .p-controls { opacity: 0; transform: translateY(8px); pointer-events: none; }
+.player.idle { cursor: none; }
+.pc { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; color: #fff; transition: background .2s, transform .15s; }
+.pc:hover { background: rgba(255,255,255,.16); }
+.pc:active { transform: scale(.9); }
+.pc.main { width: 48px; height: 48px; background: var(--color-primary-600); box-shadow: var(--shadow-xs); }
+.pc.main:hover { background: var(--color-primary-500); }
+.pc .ic { width: 22px; height: 22px; }
+.spacer { flex: 1; }
+.live-pill { display: inline-flex; align-items: center; gap: 7px; padding: 4px 10px; border-radius: var(--radius-full); background: rgba(255,59,59,.18); color: #ff8080; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; }
+.live-pill i, .card .live i { width: 7px; height: 7px; border-radius: 50%; background: #ff4747; animation: pulse 1.6s infinite; }
+.vol { display: flex; align-items: center; }
+.vol input { width: 0; opacity: 0; transition: width .25s, opacity .25s; margin-left: 0; }
+.vol:hover input, .vol:focus-within input { width: 86px; opacity: 1; margin: 0 8px 0 2px; }
+input[type=range] { -webkit-appearance: none; appearance: none; height: 4px; border-radius: 4px; background: rgba(255,255,255,.3); outline: none; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(77,67,254,.5); }
+input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border: 0; border-radius: 50%; background: #fff; }
+.p-center { position: absolute; inset: 0; display: grid; place-items: center; z-index: 2; pointer-events: none; opacity: 0; transition: opacity .25s; }
+.p-center.on { opacity: 1; }
+.spinner { width: 54px; height: 54px; border-radius: 50%; border: 4px solid rgba(255,255,255,.18); border-top-color: var(--color-primary-400); animation: spin .8s linear infinite; }
+.p-error { position: absolute; inset: 0; z-index: 4; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; padding: 24px; background: rgba(10,6,40,.86); backdrop-filter: blur(6px); animation: fadeIn .3s both; }
+.p-error .ic { width: 44px; height: 44px; color: #ff8080; }
+.p-error p { max-width: 38ch; color: var(--color-text-4); }
+.p-error .row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.menu { position: absolute; right: 64px; bottom: 74px; min-width: 150px; padding: 6px; border-radius: 14px; background: rgba(27,27,27,.96); border: 1px solid rgba(255,255,255,.12); box-shadow: 0 20px 40px rgba(0,0,0,.5); z-index: 5; animation: pop .18s both; transform-origin: bottom right; }
+.menu button { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 14px; padding: 9px 12px; border-radius: 9px; font-size: 14px; color: #fff; }
+.menu button:hover { background: rgba(255,255,255,.1); }
+.menu button.on { color: var(--color-primary-300); font-weight: 700; }
+.menu .ic { width: 16px; height: 16px; }
+
+.stage-side { display: flex; flex-direction: column; gap: 16px; padding: 18px; border-radius: var(--radius-xl); background: var(--surface); border: 1px solid var(--line); min-height: 0; transition: background .35s; }
+.side-head { display: flex; gap: 14px; align-items: center; }
+.side-head .logo { width: 64px; height: 64px; border-radius: 16px; flex: none; }
+.side-head h3 { font-size: 20px; line-height: 1.1; }
+.side-head p { color: var(--muted); font-size: 13px; margin-top: 2px; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge { padding: 4px 10px; border-radius: var(--radius-full); background: var(--accent-soft); color: var(--accent-text); font-size: 12px; font-weight: 700; }
+.side-actions { display: flex; gap: 8px; }
+.side-actions .btn { flex: 1; padding: 10px 12px; font-size: 14px; }
+.btn.fav-on { background: var(--color-primary-600); color: #fff; border-color: transparent; }
+.upnext h4 { font-family: var(--font-sans); font-size: 14px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: 8px; }
+.up-list { display: flex; flex-direction: column; gap: 4px; max-height: 260px; overflow: auto; margin: 0 -6px; padding: 0 6px; }
+.up-item { display: flex; align-items: center; gap: 12px; padding: 8px; border-radius: 12px; text-align: left; transition: background .2s, transform .15s; }
+.up-item:hover { background: var(--surface-2); transform: translateX(3px); }
+.up-item .logo { width: 40px; height: 40px; border-radius: 10px; font-size: 13px; }
+.up-item b { display: block; font-weight: 600; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.up-item span { font-size: 12px; color: var(--muted); }
+.up-item > div { min-width: 0; }
+
+/* ---------- logo (initials + image) ---------- */
+.logo { position: relative; display: grid; place-items: center; overflow: hidden; background: linear-gradient(135deg, var(--a), var(--b)); color: #fff; font-family: var(--font-sans); font-weight: 700; letter-spacing: -.02em; }
+.logo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 14%; background: #fff; }
+
+/* ---------- browse ---------- */
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin: 32px 0 14px; }
+.section-head h2 { font-size: clamp(26px, 4vw, var(--font-size-title-4)); font-weight: 700; line-height: 1; }
+.section-head p { color: var(--muted); margin-top: 6px; font-size: 14px; }
+.seg { display: inline-flex; padding: 4px; border-radius: var(--radius-full); background: var(--surface); border: 1px solid var(--line); }
+.seg button { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: var(--radius-full); color: var(--muted); font-weight: 600; font-size: 14px; transition: background .2s, color .2s; }
+.seg button.on { background: var(--color-primary-600); color: #fff; }
+.chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 12px; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 92%, transparent); mask-image: linear-gradient(90deg, #000 92%, transparent); }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; padding: 8px 16px; border-radius: var(--radius-full); border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 14px; color: var(--muted); transition: all .2s; }
+.chip:hover { color: var(--text); transform: translateY(-1px); }
+.chip.on { background: var(--color-primary-600); border-color: transparent; color: #fff; box-shadow: var(--shadow-xs); }
+.chip em { font-style: normal; opacity: .65; margin-left: 6px; font-size: 12px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
+.card { position: relative; border-radius: var(--radius-lg); background: var(--surface); border: 1px solid var(--line); overflow: hidden; cursor: pointer; animation: fadeUp .5s both; animation-delay: calc(var(--i, 0) * 35ms); transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s, border-color .25s; }
+.card:hover { transform: translateY(-5px); box-shadow: var(--card-shadow); border-color: color-mix(in srgb, var(--color-primary-500) 55%, transparent); }
+.card:active { transform: scale(.98); }
+.card .thumb { position: relative; aspect-ratio: 16/10; }
+.card .thumb .logo { position: absolute; inset: 0; font-size: 38px; border-radius: 0; }
+.card .live { position: absolute; left: 10px; top: 10px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px; border-radius: var(--radius-full); background: rgba(10,6,40,.72); backdrop-filter: blur(6px); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .07em; }
+.card .fav { position: absolute; right: 8px; top: 8px; z-index: 3; width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: rgba(10,6,40,.6); backdrop-filter: blur(6px); color: #fff; transition: transform .2s, background .2s; }
+.card .fav:hover { transform: scale(1.12); }
+.card .fav .ic { width: 17px; height: 17px; }
+.card .fav.on { background: var(--color-primary-600); }
+.card .fav.on .ic, .btn.fav-on .ic { fill: currentColor; }
+.card .play { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; background: linear-gradient(0deg, rgba(20,5,95,.55), transparent 60%); opacity: 0; transition: opacity .25s; }
+.card .play span { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--color-primary-600); color: #fff; box-shadow: var(--shadow-sm); transform: scale(.7); transition: transform .3s cubic-bezier(.2,1.4,.4,1); }
+.card:hover .play, .card:focus-visible .play { opacity: 1; }
+.card:hover .play span, .card:focus-visible .play span { transform: scale(1); }
+.card .meta { padding: 12px 14px 14px; }
+.card h3 { font-family: var(--font-font-1); font-size: 15px; font-weight: 700; letter-spacing: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card p { color: var(--muted); font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.eq { position: absolute; right: 12px; bottom: 12px; z-index: 3; display: none; align-items: flex-end; gap: 3px; height: 18px; padding: 5px 7px; border-radius: 8px; background: var(--color-primary-600); box-sizing: content-box; }
+.eq i { width: 3px; background: #fff; border-radius: 2px; animation: eq 1s ease-in-out infinite; height: 14px; transform-origin: bottom; }
+.eq i:nth-child(2) { animation-delay: -.4s; } .eq i:nth-child(3) { animation-delay: -.7s; }
+.card.playing { border-color: var(--color-primary-500); box-shadow: 0 0 0 2px var(--color-primary-500), var(--shadow-xs); }
+.card.playing .eq { display: flex; }
+
+.grid.rows { grid-template-columns: 1fr; gap: 8px; }
+.grid.rows .card { display: flex; align-items: center; border-radius: 14px; }
+.grid.rows .card:hover { transform: translateX(4px); }
+.grid.rows .thumb { width: 84px; flex: none; aspect-ratio: 1; }
+.grid.rows .thumb .logo { font-size: 22px; }
+.grid.rows .live, .grid.rows .play { display: none; }
+.grid.rows .fav { position: static; margin-left: auto; margin-right: 12px; order: 3; background: var(--surface-2); color: var(--text); }
+.grid.rows .fav.on { background: var(--color-primary-600); color: #fff; }
+.grid.rows .meta { flex: 1; min-width: 0; }
+.grid.rows .eq { right: auto; left: 8px; bottom: 8px; }
+
+.empty { display: grid; place-items: center; gap: 10px; text-align: center; padding: 56px 20px; border: 2px dashed var(--line); border-radius: var(--radius-xl); color: var(--muted); animation: fadeUp .5s both; }
+.empty .ic { width: 46px; height: 46px; color: var(--accent-text); }
+.empty h3 { color: var(--text); font-size: 20px; }
+.empty p { max-width: 38ch; }
+
+/* ---------- manage view ---------- */
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-xl); padding: 20px; animation: fadeUp .5s both; }
+.panel + .panel { margin-top: 16px; }
+.panel h3 { font-size: 20px; margin-bottom: 4px; }
+.panel > p { color: var(--muted); font-size: 14px; margin-bottom: 14px; }
+.pl-row { display: flex; align-items: center; gap: 14px; padding: 14px; border-radius: 14px; background: var(--surface-2); margin-top: 8px; }
+.pl-row .pl-ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-text); flex: none; }
+.pl-row > div:nth-child(2) { min-width: 0; flex: 1; }
+.pl-row b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pl-row small { color: var(--muted); }
+.row-actions { display: flex; gap: 6px; }
+.row-actions .btn { width: 40px; height: 40px; padding: 0; border-radius: 12px; background: var(--surface); border-color: var(--line); }
+.settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.setting { display: flex; flex-direction: column; gap: 8px; }
+.setting label { font-weight: 600; font-size: 14px; }
+.keys { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px 20px; }
+.keys div { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+kbd { font: 700 12px var(--font-font-1); padding: 3px 8px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); color: var(--text); }
+
+/* ---------- modal & toast ---------- */
+.backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 16px; background: rgba(8,4,30,.66); backdrop-filter: blur(8px); animation: fadeIn .25s both; }
+.modal { width: min(560px, 100%); max-height: calc(100dvh - 32px); overflow: auto; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); padding: 24px; box-shadow: 0 30px 80px rgba(0,0,0,.5); animation: pop .3s cubic-bezier(.2,1.2,.4,1) both; }
+.modal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.modal h2 { font-size: 26px; }
+.modal > p { color: var(--muted); font-size: 14px; margin-bottom: 18px; }
+.field { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+.field label { font-weight: 600; font-size: 13px; color: var(--muted); }
+.field input[type=text], .field input[type=url], .field textarea { width: 100%; padding: 13px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); outline: none; transition: border-color .2s, box-shadow .2s; }
+.field textarea { min-height: 150px; resize: vertical; font-family: ui-monospace, Menlo, monospace; font-size: 12.5px; }
+.field input:focus, .field textarea:focus { border-color: var(--color-primary-500); box-shadow: 0 0 0 4px var(--accent-soft); }
+.drop { display: grid; place-items: center; gap: 6px; text-align: center; padding: 30px 16px; border: 2px dashed var(--line); border-radius: 16px; color: var(--muted); cursor: pointer; transition: border-color .2s, background .2s; }
+.drop:hover, .drop.over { border-color: var(--color-primary-500); background: var(--accent-soft); }
+.drop .ic { width: 32px; height: 32px; color: var(--accent-text); }
+.note { margin-top: 12px; padding: 10px 12px; border-radius: 12px; font-size: 13px; background: var(--accent-soft); color: var(--accent-text); }
+.note.err { background: rgba(255,80,80,.12); color: #ff7b7b; }
+.modal-foot { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.btn .spin { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); border-top-color: #fff; animation: spin .7s linear infinite; }
+
+.toasts { position: fixed; z-index: 200; left: 50%; bottom: 24px; transform: translateX(-50%); display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: min(92vw, 420px); }
+.toast { display: flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 14px; background: #fff; color: #1b1b1b; font-weight: 600; font-size: 14px; box-shadow: 0 14px 40px rgba(0,0,0,.35); animation: toastIn .35s cubic-bezier(.2,1.2,.4,1) both; }
+html[data-theme="light"] .toast { background: var(--color-ink); color: #fff; }
+.toast.out { animation: toastOut .3s both; }
+.toast .ic { color: var(--color-primary-600); }
+.toast.warn .ic { color: #e5484d; }
+
+/* ---------- bottom nav (mobile) ---------- */
+.bottom-nav { display: none; position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 40; padding: 6px; border-radius: 22px; background: color-mix(in srgb, var(--surface) 88%, transparent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--line); box-shadow: var(--card-shadow); justify-content: space-around; }
+.bottom-nav button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; border-radius: 16px; color: var(--muted); font-size: 11px; font-weight: 600; transition: background .2s, color .2s; }
+.bottom-nav button.active { background: var(--accent-soft); color: var(--accent-text); }
+
+/* ---------- catalog: country select, loader, quality tag ---------- */
+.tools { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 10px; }
+.select { -webkit-appearance: none; appearance: none; padding: 10px 40px 10px 16px; border-radius: var(--radius-full); border: 1px solid var(--line); background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239f9f9f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center; color: var(--text); font-weight: 600; font-size: 14px; max-width: 250px; cursor: pointer; outline: none; transition: border-color .2s, box-shadow .2s; }
+.select:focus { border-color: var(--color-primary-500); box-shadow: 0 0 0 4px var(--accent-soft); }
+.select option { background: var(--surface); color: var(--text); }
+.loader { display: grid; gap: 14px; margin-top: 8px; animation: fadeIn .3s both; }
+.loader-row { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-radius: var(--radius-lg); background: var(--accent-soft); color: var(--accent-text); font-weight: 600; }
+.loader-row .spinner { width: 22px; height: 22px; border-width: 3px; border-color: rgba(77,67,254,.25); border-top-color: var(--color-primary-500); }
+.skel { aspect-ratio: 16/12; border-radius: var(--radius-lg); background: linear-gradient(100deg, var(--surface) 30%, var(--surface-2) 50%, var(--surface) 70%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.card .qtag { position: absolute; left: 10px; bottom: 10px; z-index: 2; padding: 2px 8px; border-radius: var(--radius-full); background: rgba(10,6,40,.72); backdrop-filter: blur(6px); color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .04em; }
+.grid.rows .qtag { display: none; }
+.check { display: flex; align-items: flex-start; gap: 12px; cursor: pointer; font-weight: 600; font-size: 14px; }
+.check input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--color-primary-600); flex: none; }
+.check small { display: block; font-weight: 400; color: var(--muted); margin-top: 2px; }
+.setting small { color: var(--muted); font-size: 13px; }
+.quick { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 4px; }
+.quick small { color: var(--muted); font-size: 12.5px; margin-right: 2px; }
+.quick button { padding: 4px 11px; border-radius: var(--radius-full); border: 1px solid var(--line); background: var(--surface-2); font-size: 12.5px; font-weight: 600; transition: border-color .2s, color .2s; }
+.quick button:hover { border-color: var(--color-primary-500); color: var(--accent-text); }
+
+/* ---------- voice search ---------- */
+.search .mic { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; color: var(--muted); transition: background .2s, color .2s, transform .15s; }
+.search .mic .ic { position: static; transform: none; color: inherit; }
+.search .mic:hover { background: var(--accent-soft); color: var(--accent-text); }
+.search .mic:active { transform: translateY(-50%) scale(.9); }
+.search .mic.on { background: var(--color-primary-600); color: #fff; animation: micPulse 1.4s ease-out infinite; }
+.search.has-mic input { padding-right: 96px; }
+.search.has-mic kbd { right: 52px; }
+.voice-hint { position: absolute; left: 0; right: 0; top: calc(100% + 8px); z-index: 30; display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: var(--radius-lg); background: var(--color-primary-950); color: #fff; box-shadow: var(--shadow-sm); border: 1px solid rgba(255,255,255,.12); animation: pop .22s both; transform-origin: top center; }
+.voice-hint span { font-weight: 600; font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.voice-hint span.idle { color: var(--color-text-3); font-weight: 500; }
+.vbars { display: flex; align-items: center; gap: 3px; height: 22px; flex: none; }
+.vbars i { width: 4px; height: 22px; border-radius: 3px; background: var(--color-primary-300); transform-origin: center; animation: vbar 1s ease-in-out infinite; }
+.vbars i:nth-child(2) { animation-delay: -.25s; } .vbars i:nth-child(3) { animation-delay: -.5s; } .vbars i:nth-child(4) { animation-delay: -.75s; }
+#browse { scroll-margin-top: 84px; }
+@keyframes micPulse { 0% { box-shadow: 0 0 0 0 rgba(77,67,254,.55); } 100% { box-shadow: 0 0 0 14px rgba(77,67,254,0); } }
+@keyframes vbar { 0%,100% { transform: scaleY(.25); } 50% { transform: scaleY(1); } }
+@media (max-width: 860px) { .search.has-mic input { padding-right: 56px; } }
+
+/* ---------- keyframes ---------- */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,71,71,.6); } 50% { box-shadow: 0 0 0 6px rgba(255,71,71,0); } }
+@keyframes float { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(30px,-24px) scale(1.08); } 66% { transform: translate(-24px,18px) scale(.94); } }
+@keyframes eq { 0%,100% { transform: scaleY(.25); } 50% { transform: scaleY(1); } }
+@keyframes toastIn { from { opacity: 0; transform: translateY(20px) scale(.9); } to { opacity: 1; transform: none; } }
+@keyframes toastOut { to { opacity: 0; transform: translateY(10px) scale(.95); } }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1100px) {
+  .stage { grid-template-columns: 1fr; }
+  .up-list { max-height: 220px; }
+}
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr; }
+  .sidebar { display: none; }
+  main { padding: 0 16px 110px; }
+  .m-brand { display: flex; }
+  .topbar { flex-wrap: wrap; padding: 12px 0; }
+  .search { order: 3; flex-basis: 100%; max-width: none; }
+  .search kbd { display: none; }
+  .top-actions .btn-primary span { display: none; }
+  .top-actions .btn-primary { width: 44px; height: 44px; padding: 0; border-radius: 50%; }
+  .bottom-nav { display: flex; }
+  .grid { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+  .grid.rows { grid-template-columns: 1fr; }
+  .card .thumb .logo { font-size: 28px; }
+  .p-controls { padding: 40px 10px 10px; gap: 2px; }
+  .pc { width: 38px; height: 38px; }
+  .pc.main { width: 44px; height: 44px; }
+  .vol { display: none; }
+  .p-top { padding: 12px 14px 34px; }
+  .p-top h3 { font-size: 16px; }
+  .menu { right: 10px; bottom: 64px; }
+  .section-head { margin-top: 24px; flex-wrap: wrap; }
+  .tools { width: 100%; justify-content: flex-start; }
+  .tools .select { flex: 1; max-width: none; }
+  .toasts { bottom: 100px; }
+  .hero { border-radius: 24px; }
+}
+@media (hover: none) { .card .play { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================= ICON SPRITE ======================= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 3 20 12 6 21 6 3"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><rect x="14" y="4" width="4" height="16" rx="1"/><rect x="6" y="4" width="4" height="16" rx="1"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></symbol>
+  <symbol id="i-prev" viewBox="0 0 24 24"><polygon points="19 20 9 12 19 4 19 20"/><line x1="5" x2="5" y1="19" y2="5"/></symbol>
+  <symbol id="i-vol" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="22" x2="16" y1="9" y2="15"/><line x1="16" x2="22" y1="9" y2="15"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M21 8V5a2 2 0 0 0-2-2h-3"/><path d="M3 16v3a2 2 0 0 0 2 2h3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></symbol>
+  <symbol id="i-min" viewBox="0 0 24 24"><path d="M8 3v3a2 2 0 0 1-2 2H3"/><path d="M21 8h-3a2 2 0 0 1-2-2V3"/><path d="M3 16h3a2 2 0 0 1 2 2v3"/><path d="M16 21v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="i-pip" viewBox="0 0 24 24"><path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h4"/><rect width="10" height="7" x="12" y="13" rx="2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-tv" viewBox="0 0 24 24"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><line x1="8" x2="21" y1="6" y2="6"/><line x1="8" x2="21" y1="12" y2="12"/><line x1="8" x2="21" y1="18" y2="18"/><line x1="3" x2="3.01" y1="6" y2="6"/><line x1="3" x2="3.01" y1="12" y2="12"/><line x1="3" x2="3.01" y1="18" y2="18"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></symbol>
+  <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"/><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"/><circle cx="12" cy="12" r="2"/><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"/><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></symbol>
+  <symbol id="i-mic" viewBox="0 0 24 24"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="i-keyboard" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="M6 8h.01"/><path d="M10 8h.01"/><path d="M14 8h.01"/><path d="M18 8h.01"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/><path d="M7 16h10"/></symbol>
+</svg>
+
+<div class="app">
+
+  <!-- ======================= SIDEBAR ======================= -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg class="ic" style="width:22px;height:22px"><use href="#i-tv"/></svg></div>
+      <div>Super IPTV<small>Live television</small></div>
+    </div>
+    <nav class="nav" aria-label="Main">
+      <button class="nav-item active" data-view="home"><svg class="ic"><use href="#i-signal"/></svg>Live TV<span class="count" id="cntAll">0</span></button>
+      <button class="nav-item" data-view="favorites"><svg class="ic"><use href="#i-heart"/></svg>Favorites<span class="count" id="cntFav">0</span></button>
+      <button class="nav-item" data-view="recent"><svg class="ic"><use href="#i-clock"/></svg>Recent<span class="count" id="cntRec">0</span></button>
+      <button class="nav-item" data-view="playlists"><svg class="ic"><use href="#i-sliders"/></svg>Playlists &amp; Settings</button>
+    </nav>
+    <div class="side-foot">
+      <h4>Bring your own playlist</h4>
+      <p>Add any M3U / M3U8 list by URL, file or paste.</p>
+      <button class="btn btn-ghost" style="width:100%;background:rgba(255,255,255,.14);border-color:transparent;color:#fff" data-open-modal><svg class="ic"><use href="#i-plus"/></svg>Add playlist</button>
+    </div>
+  </aside>
+
+  <!-- ======================= MAIN ======================= -->
+  <main>
+    <header class="topbar">
+      <div class="m-brand"><div class="brand-mark"><svg class="ic" style="width:18px;height:18px"><use href="#i-tv"/></svg></div>Super IPTV</div>
+      <div class="search">
+        <svg class="ic"><use href="#i-search"/></svg>
+        <input id="q" type="search" placeholder="Search channels or categories" autocomplete="off" aria-label="Search channels">
+        <kbd>/</kbd>
+        <button type="button" class="mic" id="micBtn" aria-label="Search by voice" aria-pressed="false" title="Search by voice (V)" hidden><svg class="ic"><use href="#i-mic"/></svg></button>
+        <div class="voice-hint" id="voiceHint" role="status" aria-live="polite" hidden>
+          <div class="vbars"><i></i><i></i><i></i><i></i></div><span id="voiceText">Listening…</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-ghost icon-btn" id="themeBtn" aria-label="Toggle theme"><svg class="ic" id="themeIc"><use href="#i-sun"/></svg></button>
+        <button class="btn btn-primary" data-open-modal><svg class="ic"><use href="#i-plus"/></svg><span>Add playlist</span></button>
+      </div>
+    </header>
+
+    <!-- hero -->
+    <section class="hero" id="hero">
+      <div class="orb a"></div><div class="orb b"></div><div class="orb c"></div>
+      <div class="hero-tv"><svg class="ic"><use href="#i-tv"/></svg></div>
+      <div class="tag"><svg class="ic" style="width:15px;height:15px"><use href="#i-signal"/></svg>iptv-org catalog · HLS · M3U</div>
+      <h1 class="display">Live TV, <span>your way.</span></h1>
+      <p>Thousands of free-to-air channels from the iptv-org community catalog, or load your own M3U playlist. Pick a channel below to start watching.</p>
+      <div class="cta">
+        <button class="btn btn-primary" id="heroPlay"><svg class="ic fill"><use href="#i-play"/></svg>Start watching</button>
+        <button class="btn btn-ghost" data-open-modal><svg class="ic"><use href="#i-plus"/></svg>Add playlist</button>
+      </div>
+    </section>
+
+    <!-- stage -->
+    <section class="stage" id="stage" hidden>
+      <div class="player" id="player">
+        <video id="video" playsinline webkit-playsinline></video>
+        <div class="p-top">
+          <div style="min-width:0;flex:1"><h3 id="pTitle">—</h3><small id="pGroup"></small></div>
+          <span class="live-pill"><i></i>LIVE</span>
+        </div>
+        <div class="p-center" id="pBuffer"><div class="spinner"></div></div>
+        <div class="p-error" id="pError" hidden>
+          <svg class="ic"><use href="#i-alert"/></svg>
+          <h3 style="font-size:20px">Can't play this channel</h3>
+          <p id="pErrMsg"></p>
+          <div class="row">
+            <button class="btn btn-primary" id="retryBtn"><svg class="ic"><use href="#i-refresh"/></svg>Retry</button>
+            <button class="btn btn-ghost" id="skipBtn" style="color:#fff;border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08)">Next channel</button>
+          </div>
+        </div>
+        <div class="menu" id="qMenu" hidden></div>
+        <div class="p-controls">
+          <button class="pc" id="bPrev" aria-label="Previous channel"><svg class="ic"><use href="#i-prev"/></svg></button>
+          <button class="pc main" id="bPlay" aria-label="Play or pause"><svg class="ic fill" id="playIc"><use href="#i-pause"/></svg></button>
+          <button class="pc" id="bNext" aria-label="Next channel"><svg class="ic"><use href="#i-next"/></svg></button>
+          <div class="vol">
+            <button class="pc" id="bMute" aria-label="Mute"><svg class="ic" id="muteIc"><use href="#i-vol"/></svg></button>
+            <input type="range" id="vol" min="0" max="1" step="0.01" value="0.8" aria-label="Volume">
+          </div>
+          <div class="spacer"></div>
+          <button class="pc" id="bQual" aria-label="Quality" hidden><svg class="ic"><use href="#i-sliders"/></svg></button>
+          <button class="pc" id="bPip" aria-label="Picture in picture"><svg class="ic"><use href="#i-pip"/></svg></button>
+          <button class="pc" id="bFs" aria-label="Fullscreen"><svg class="ic" id="fsIc"><use href="#i-max"/></svg></button>
+        </div>
+      </div>
+
+      <aside class="stage-side">
+        <div class="side-head">
+          <div class="logo" id="sLogo" style="--a:#7985ff;--b:#3d33d3">TV</div>
+          <div style="min-width:0"><h3 id="sName">—</h3><p id="sGroup"></p></div>
+        </div>
+        <div class="badges" id="sBadges"><span class="badge">LIVE</span></div>
+        <div class="side-actions">
+          <button class="btn btn-ghost" id="sFav"><svg class="ic"><use href="#i-heart"/></svg><span>Favorite</span></button>
+          <button class="btn btn-ghost" id="sCopy"><svg class="ic"><use href="#i-link"/></svg><span>Copy URL</span></button>
+        </div>
+        <div class="upnext">
+          <h4>Up next</h4>
+          <div class="up-list" id="upList"></div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- browse -->
+    <section id="browse">
+      <div class="section-head">
+        <div><h2 id="viewTitle">All channels</h2><p id="viewSub"></p></div>
+        <div class="tools">
+          <select class="select" id="countrySel" aria-label="Filter by country" hidden></select>
+          <div class="seg" role="group" aria-label="Layout">
+            <button id="layGrid" class="on" aria-label="Grid view"><svg class="ic" style="width:16px;height:16px"><use href="#i-grid"/></svg>Grid</button>
+            <button id="layRows" aria-label="List view"><svg class="ic" style="width:16px;height:16px"><use href="#i-list"/></svg>List</button>
+          </div>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="loader" id="loader" hidden>
+        <div class="loader-row"><div class="spinner"></div><span id="loaderText">Loading catalog…</span></div>
+        <div class="grid"><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div id="sentinel" style="height:2px"></div>
+    </section>
+
+    <!-- manage -->
+    <section id="manage" hidden>
+      <div class="section-head"><div><h2>Playlists &amp; Settings</h2><p>Manage sources, appearance and shortcuts.</p></div>
+        <button class="btn btn-primary" data-open-modal><svg class="ic"><use href="#i-plus"/></svg>Add playlist</button></div>
+      <div class="panel">
+        <h3>Your playlists</h3>
+        <p>Channels from all playlists are merged in Live TV.</p>
+        <div id="plList"></div>
+      </div>
+      <div class="panel">
+        <h3>iptv-org catalog</h3>
+        <p>Channels, streams, logos, categories and countries come from the community API at iptv-org.github.io/api. Closed, adult and blocklisted channels are hidden, and streams that need custom request headers are skipped.</p>
+        <div class="settings-grid">
+          <label class="check"><input type="checkbox" id="httpsOnly"><span>Only HTTPS streams<small>Browsers block plain-HTTP streams on secure pages.</small></span></label>
+          <div class="setting"><button class="btn btn-ghost" id="reloadApi" style="align-self:flex-start"><svg class="ic"><use href="#i-refresh"/></svg>Reload catalog</button><small id="apiMeta"></small></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>Appearance</h3>
+        <p>Tune the look of the app.</p>
+        <div class="settings-grid">
+          <div class="setting"><label>Theme</label>
+            <div class="seg" style="align-self:flex-start">
+              <button id="thDark"><svg class="ic" style="width:16px;height:16px"><use href="#i-moon"/></svg>Dark</button>
+              <button id="thLight"><svg class="ic" style="width:16px;height:16px"><use href="#i-sun"/></svg>Light</button>
+            </div></div>
+          <div class="setting"><label>Channel layout</label>
+            <div class="seg" style="align-self:flex-start">
+              <button id="setGrid">Grid</button><button id="setRows">List</button>
+            </div></div>
+          <div class="setting"><label>Data</label>
+            <button class="btn btn-ghost btn-danger" id="resetBtn" style="align-self:flex-start"><svg class="ic"><use href="#i-trash"/></svg>Reset everything</button></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3><svg class="ic" style="vertical-align:-4px;margin-right:6px"><use href="#i-keyboard"/></svg>Keyboard shortcuts</h3>
+        <p>Available while watching.</p>
+        <div class="keys">
+          <div>Play / pause <kbd>Space</kbd></div><div>Fullscreen <kbd>F</kbd></div>
+          <div>Mute <kbd>M</kbd></div><div>Next channel <kbd>↓</kbd></div>
+          <div>Previous channel <kbd>↑</kbd></div><div>Favorite <kbd>L</kbd></div>
+          <div>Search <kbd>/</kbd></div><div>Voice search <kbd>V</kbd></div>
+          <div>Close dialog <kbd>Esc</kbd></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>About streams</h3>
+        <p style="margin:0">Super IPTV is a player only — it hosts no channels. The iptv-org catalog lists publicly available streams that broadcasters or third parties provide; many go offline, are geo-blocked, or block browser (CORS) access, so some channels simply won't play. When a channel has backup streams, the player tries them automatically.</p>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- bottom nav -->
+<nav class="bottom-nav" aria-label="Main">
+  <button class="active" data-view="home"><svg class="ic"><use href="#i-signal"/></svg>Live</button>
+  <button data-view="favorites"><svg class="ic"><use href="#i-heart"/></svg>Favorites</button>
+  <button data-view="recent"><svg class="ic"><use href="#i-clock"/></svg>Recent</button>
+  <button data-view="playlists"><svg class="ic"><use href="#i-sliders"/></svg>Settings</button>
+</nav>
+
+<!-- add playlist modal -->
+<div class="backdrop" id="modal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <div class="modal-head">
+      <h2 id="mTitle">Add playlist</h2>
+      <button class="btn btn-ghost icon-btn" id="mClose" aria-label="Close"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+    <p>Load an M3U / M3U8 list from a link, a file, or pasted text.</p>
+    <div class="seg" id="mTabs" style="display:flex">
+      <button class="on" data-tab="url" style="flex:1;justify-content:center"><svg class="ic" style="width:16px;height:16px"><use href="#i-link"/></svg>URL</button>
+      <button data-tab="file" style="flex:1;justify-content:center"><svg class="ic" style="width:16px;height:16px"><use href="#i-upload"/></svg>File</button>
+      <button data-tab="text" style="flex:1;justify-content:center"><svg class="ic" style="width:16px;height:16px"><use href="#i-file"/></svg>Paste</button>
+    </div>
+    <div class="field"><label for="plName">Name (optional)</label><input type="text" id="plName" placeholder="My playlist"></div>
+    <div class="field" data-pane="url"><label for="plUrl">Playlist URL</label><input type="url" id="plUrl" placeholder="https://example.com/playlist.m3u8">
+      <div class="quick" id="quick"><small>Quick fill:</small>
+        <button type="button" data-fill="https://iptv-org.github.io/iptv/countries/in.m3u" data-name="iptv-org India">India</button>
+        <button type="button" data-fill="https://iptv-org.github.io/iptv/countries/us.m3u" data-name="iptv-org USA">USA</button>
+        <button type="button" data-fill="https://iptv-org.github.io/iptv/categories/news.m3u" data-name="iptv-org News">News</button>
+        <button type="button" data-fill="https://iptv-org.github.io/iptv/categories/movies.m3u" data-name="iptv-org Movies">Movies</button>
+      </div></div>
+    <div class="field" data-pane="file" hidden>
+      <label>Playlist file</label>
+      <label class="drop" id="drop" for="plFile"><svg class="ic"><use href="#i-upload"/></svg><b id="dropText">Choose or drop a .m3u / .m3u8 file</b><span style="font-size:13px">Processed locally in your browser</span></label>
+      <input type="file" id="plFile" accept=".m3u,.m3u8,.txt,audio/x-mpegurl,application/vnd.apple.mpegurl" hidden>
+    </div>
+    <div class="field" data-pane="text" hidden><label for="plText">Paste M3U content</label><textarea id="plText" placeholder="#EXTM3U&#10;#EXTINF:-1 group-title=&quot;News&quot;,Channel name&#10;https://example.com/stream.m3u8"></textarea></div>
+    <div class="note err" id="mErr" hidden></div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" id="mCancel">Cancel</button>
+      <button class="btn btn-primary" id="mSubmit"><svg class="ic"><use href="#i-check"/></svg><span>Add playlist</span></button>
+    </div>
+  </div>
+</div>
+
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<noscript><p style="padding:24px">Super IPTV needs JavaScript to run.</p></noscript>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hls.js/1.5.13/hls.min.js"></script>
+<script>
+(() => {
+'use strict';
+
+/* ---------------- helpers ---------------- */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const ic = (n, c = '') => `<svg class="ic ${c}" aria-hidden="true"><use href="#i-${n}"/></svg>`;
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const hash = str => { let h = 5381; for (let i = 0; i < str.length; i++) h = ((h << 5) + h + str.charCodeAt(i)) | 0; return (h >>> 0).toString(36); };
+const KEY = 'super-iptv:v1';
+const PALETTE = [['#7985ff','#3d33d3'],['#5f60ff','#271898'],['#4d43fe','#14055f'],['#9aadff','#4d43fe'],['#3d33d3','#14055f'],['#5f60ff','#3124b4']];
+const PAGE = 48;
+
+/* ---------------- demo playlist (public / test streams) ---------------- */
+const DEMO_M3U = `#EXTM3U
+#EXTINF:-1 tvg-id="nasa" group-title="Science",NASA TV
+https://ntv1.akamaized.net/hls/live/2014075/NASA-NTV1-HLS/master.m3u8
+#EXTINF:-1 tvg-id="aje" group-title="News",Al Jazeera English
+https://live-hls-web-aje.getaj.net/AJE/index.m3u8
+#EXTINF:-1 tvg-id="dw" group-title="News",DW English
+https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8
+#EXTINF:-1 tvg-id="f24" group-title="News",France 24 English
+https://static.france24.com/live/F24_EN_HI_HLS/live_web.m3u8
+#EXTINF:-1 tvg-id="rb" group-title="Entertainment",Red Bull TV
+https://rbmn-live.akamaized.net/hls/live/590964/BoRB-AT/master.m3u8
+#EXTINF:-1 tvg-id="bbb" group-title="Movies",Big Buck Bunny
+https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+#EXTINF:-1 tvg-id="sintel" group-title="Movies",Sintel
+https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8
+#EXTINF:-1 tvg-id="tos" group-title="Movies",Tears of Steel
+https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8
+#EXTINF:-1 tvg-id="bip" group-title="Test streams",Apple Bip-Bop
+https://devstreaming-cdn.apple.com/videos/streaming/examples/img_bipbop_adv_example_fmp4/master.m3u8
+#EXTINF:-1 tvg-id="akt" group-title="Test streams",Akamai Live Test
+https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8
+`;
+
+/* ---------------- state ---------------- */
+const state = {
+  playlists: [], favs: new Set(), recents: [],
+  settings: { theme: 'dark', layout: 'grid', volume: .8, muted: false, httpsOnly: location.protocol === 'https:' },
+  demoRemoved: false, apiRemoved: false,
+  view: 'home', cat: 'All', country: 'All', q: '',
+  countries: {}, apiRaw: null, loading: false,
+  current: null, items: [], rendered: 0, hls: null, retries: 0, attempt: 0, timer: null
+};
+let byId = new Map();
+let allCh = [];
+
+/* ---------------- persistence ---------------- */
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify({
+      // the iptv-org catalog is big, so it is cached in IndexedDB instead of localStorage
+      playlists: state.playlists.map(p => p.source === 'api' ? { ...p, channels: [] } : p),
+      favs: [...state.favs], recents: state.recents,
+      settings: state.settings, demoRemoved: state.demoRemoved, apiRemoved: state.apiRemoved
+    }));
+  } catch (e) {
+    if (!save.warned) { save.warned = true; toast('Storage is full — playlists last for this session only.', 'warn'); }
+  }
+}
+function load() {
+  try {
+    const d = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (d) {
+      state.playlists = d.playlists || [];
+      state.favs = new Set(d.favs || []);
+      state.recents = d.recents || [];
+      state.settings = { ...state.settings, ...(d.settings || {}) };
+      state.demoRemoved = !!d.demoRemoved;
+      state.apiRemoved = !!d.apiRemoved;
+    }
+  } catch (e) { /* ignore */ }
+  // the iptv-org catalog is the default source
+  if (!state.apiRemoved && !state.playlists.some(p => p.source === 'api')) addApi(true);
+  state.playlists.forEach(p => { if (p.source === 'api') p.channels = []; });
+}
+function addDemo(silent) {
+  state.playlists.push({ id: 'demo', name: 'Demo channels', source: 'demo', url: '', channels: parseM3U(DEMO_M3U), added: Date.now() });
+  state.demoRemoved = false;
+  if (!silent) save();
+}
+function addApi(silent) {
+  state.playlists.unshift({ id: 'iptv-org', name: 'iptv-org catalog', source: 'api', url: 'https://iptv-org.github.io/api/', channels: [], added: Date.now() });
+  state.apiRemoved = false;
+  if (!silent) save();
+}
+
+/* =========================================================
+   iptv-org API  (https://iptv-org.github.io/api/)
+   ========================================================= */
+const API = 'https://iptv-org.github.io/api/';
+const API_TTL = 12 * 3600 * 1000;
+const LOCALE_CC = ((navigator.language || '').split('-')[1] || '').toUpperCase();
+
+const idb = {
+  open() {
+    return new Promise((res, rej) => {
+      const r = indexedDB.open('super-iptv', 1);
+      r.onupgradeneeded = () => r.result.createObjectStore('kv');
+      r.onsuccess = () => res(r.result);
+      r.onerror = () => rej(r.error);
+    });
+  },
+  async get(k) {
+    try {
+      const db = await this.open();
+      return await new Promise((res, rej) => { const q = db.transaction('kv').objectStore('kv').get(k); q.onsuccess = () => res(q.result); q.onerror = () => rej(q.error); });
+    } catch (e) { return undefined; }
+  },
+  async set(k, v) {
+    try {
+      const db = await this.open();
+      await new Promise((res, rej) => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = res; t.onerror = () => rej(t.error); });
+    } catch (e) { /* cache is optional */ }
+  },
+  async del(k) {
+    try {
+      const db = await this.open();
+      await new Promise((res, rej) => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').delete(k); t.oncomplete = res; t.onerror = () => rej(t.error); });
+    } catch (e) { /* ignore */ }
+  }
+};
+
+function setLoad(msg) {
+  state.loading = !!msg;
+  $('#loader').hidden = !msg;
+  if (msg) $('#loaderText').textContent = msg;
+}
+
+async function fetchCatalog() {
+  const names = ['streams', 'channels', 'logos', 'categories', 'countries', 'blocklist'];
+  let done = 0;
+  const [streams, channels, logos, cats, countries, blocklist] = await Promise.all(names.map(async n => {
+    let r;
+    try { r = await fetch(API + n + '.json'); }
+    catch (e) { throw new Error('network error while fetching ' + n + '.json'); }
+    if (!r.ok) throw new Error(n + '.json responded ' + r.status);
+    const j = await r.json();
+    if (!Array.isArray(j)) throw new Error(n + '.json has an unexpected format');
+    if (state.loading) setLoad(`Loading iptv-org catalog… ${++done}/${names.length} files`);
+    return j;
+  }));
+  return buildCatalog({ streams, channels, logos, cats, countries, blocklist });
+}
+
+/* join streams + channels + logos + categories; drop closed / NSFW / blocklisted channels */
+function buildCatalog({ streams, channels, logos, cats, countries, blocklist }) {
+  const catName = new Map(cats.map(c => [c.id, c.name]));
+  const blocked = new Set(blocklist.map(b => b.channel));
+  const chMap = new Map();
+  for (const c of channels) {
+    if (!c || !c.id || c.closed || c.is_nsfw || blocked.has(c.id)) continue;
+    chMap.set(c.id, c);
+  }
+
+  const logoScore = l => (l.in_use ? 4 : 0) + (l.feed ? 0 : 2) + (/^(png|svg|jpe?g|webp|gif)$/i.test(l.format || '') ? 1 : 0);
+  const logoMap = new Map();
+  for (const l of logos) {
+    if (!l || !l.url || !chMap.has(l.channel)) continue;
+    const cur = logoMap.get(l.channel);
+    if (!cur || logoScore(l) > logoScore(cur)) logoMap.set(l.channel, l);
+  }
+
+  // browsers cannot set Referer / User-Agent, so streams that need them are skipped
+  const byChannel = new Map();
+  for (const s of streams) {
+    if (!s || !s.channel || !s.url || !chMap.has(s.channel)) continue;
+    if (s.referrer || s.user_agent) continue;
+    if (!/^https?:\/\//i.test(s.url)) continue;
+    let a = byChannel.get(s.channel);
+    if (!a) byChannel.set(s.channel, a = []);
+    a.push(s);
+  }
+  const qNum = s => parseInt(s.quality, 10) || 0;
+  const rank = s => {
+    const labels = (s.labels || []).join(' ').toLowerCase();
+    return (labels.includes('geo') ? -1000 : 0) + (labels.includes('24/7') ? -50 : 0) + (s.url.startsWith('https:') ? 0 : -100) + Math.min(qNum(s), 1080) / 10;
+  };
+
+  const out = [];
+  for (const [id, list] of byChannel) {
+    const c = chMap.get(id);
+    list.sort((a, b) => rank(b) - rank(a));
+    const urls = [...new Set(list.map(s => s.url))].slice(0, 6);
+    const cn = (c.categories || []).map(x => catName.get(x)).filter(Boolean);
+    out.push({
+      id: 'iptv:' + id, name: c.name || id,
+      logo: (logoMap.get(id) || {}).url || '',
+      group: cn[0] || 'Uncategorized', cats: cn.length ? cn : ['Uncategorized'],
+      country: c.country || '', q: list[0].quality || '',
+      urls, url: urls[0], tvgId: id
+    });
+  }
+  out.sort((a, b) => ((b.country === LOCALE_CC) - (a.country === LOCALE_CC)) || a.name.localeCompare(b.name));
+
+  const cmap = {};
+  for (const k of countries) if (k && k.code) cmap[k.code] = { name: k.name, flag: k.flag || '' };
+  return { t: Date.now(), channels: out, countries: cmap };
+}
+
+/* apply the in-memory catalog to the API playlist (honours the HTTPS-only setting) */
+function applyApi() {
+  const raw = state.apiRaw;
+  const pl = state.playlists.find(p => p.source === 'api');
+  if (!raw || !pl) return;
+  const https = !!state.settings.httpsOnly;
+  const list = [];
+  for (const c of raw.channels) {
+    const urls = https ? c.urls.filter(u => u.startsWith('https:')) : c.urls;
+    if (urls.length) list.push({ ...c, urls, url: urls[0] });
+  }
+  pl.channels = list;
+  pl.updated = raw.t;
+  state.countries = raw.countries || {};
+  reindex();
+}
+
+async function initApi(force = false) {
+  const pl = state.playlists.find(p => p.source === 'api');
+  if (!pl) return;
+  if (!pl.channels.length) setLoad('Loading iptv-org catalog…');   // avoids an "empty" flash on first paint
+  if (!force) {
+    const cached = await idb.get('api-v1');
+    if (cached && cached.channels && cached.channels.length) {
+      state.apiRaw = cached; applyApi(); setLoad(''); render(); updateApiMeta();
+      if (Date.now() - cached.t < API_TTL) return;
+    }
+  }
+  const quiet = pl.channels.length > 0;       // already showing cached channels: refresh in the background
+  if (!quiet) setLoad('Loading iptv-org catalog…');
+  try {
+    const raw = await fetchCatalog();
+    state.apiRaw = raw;
+    idb.set('api-v1', raw);
+    applyApi(); save();
+    if (!quiet || force) toast(`Loaded ${pl.channels.length.toLocaleString()} channels from iptv-org`);
+  } catch (e) {
+    if (!allCh.length) { addDemo(); reindex(); save(); toast('Could not reach iptv-org — showing demo channels.', 'warn'); }
+    else toast('Could not refresh the catalog: ' + e.message, 'warn');
+  } finally {
+    setLoad('');
+    render(); updateApiMeta();
+  }
+}
+function updateApiMeta() {
+  const pl = state.playlists.find(p => p.source === 'api');
+  const el = $('#apiMeta'); if (!el) return;
+  el.textContent = pl && pl.updated ? `${pl.channels.length.toLocaleString()} channels · updated ${new Date(pl.updated).toLocaleString()}` : 'Not loaded yet';
+}
+
+/* ---------------- M3U parser ---------------- */
+function parseM3U(text) {
+  const lines = String(text).replace(/\r/g, '').split('\n');
+  const out = [], seen = new Set();
+  let meta = null;
+  for (const raw of lines) {
+    const line = raw.trim();
+    if (!line) continue;
+    if (line.startsWith('#EXTINF')) {
+      const attrs = {};
+      line.replace(/([\w-]+)="([^"]*)"/g, (_, k, v) => { attrs[k.toLowerCase()] = v; return ''; });
+      const lq = line.lastIndexOf('"');
+      const ci = line.indexOf(',', lq > -1 ? lq : 0);
+      const name = (ci > -1 ? line.slice(ci + 1) : '').trim();
+      meta = { name: name || attrs['tvg-name'] || 'Untitled', logo: attrs['tvg-logo'] || '', group: attrs['group-title'] || '', tvgId: attrs['tvg-id'] || '' };
+    } else if (line.startsWith('#EXTGRP:')) {
+      if (meta && !meta.group) meta.group = line.slice(8).trim();
+    } else if (line[0] === '#') {
+      continue;
+    } else {
+      if (/^https?:\/\//i.test(line)) {
+        const m = meta || { name: decodeURIComponent(line.split('?')[0].split('/').filter(Boolean).pop() || 'Stream'), logo: '', group: '', tvgId: '' };
+        const id = hash(m.name + '|' + line);
+        if (!seen.has(id)) {
+          seen.add(id);
+          const g = m.group || 'Uncategorized';
+          out.push({ id, name: m.name, logo: m.logo, group: g, cats: [g], country: '', q: '', url: line, urls: [line], tvgId: m.tvgId });
+        }
+      }
+      meta = null;
+    }
+  }
+  return out;
+}
+
+function reindex() {
+  allCh = state.playlists.flatMap(p => p.channels);
+  byId = new Map(allCh.map(c => [c.id, c]));
+}
+
+/* ---------------- logo html ---------------- */
+function initials(name) {
+  const w = name.replace(/[^\p{L}\p{N}\s]/gu, '').trim().split(/\s+/).filter(Boolean);
+  return ((w[0]?.[0] || '?') + (w[1]?.[0] || '')).toUpperCase();
+}
+function logoHTML(ch, cls = '') {
+  const [a, b] = PALETTE[parseInt(hash(ch.name), 36) % PALETTE.length];
+  const img = ch.logo ? `<img src="${esc(ch.logo)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : '';
+  return `<div class="logo ${cls}" style="--a:${a};--b:${b}">${esc(initials(ch.name))}${img}</div>`;
+}
+
+/* ---------------- listing ---------------- */
+function baseList() {
+  if (state.view === 'favorites') return allCh.filter(c => state.favs.has(c.id));
+  if (state.view === 'recent') return state.recents.map(id => byId.get(id)).filter(Boolean);
+  return allCh;
+}
+const catsOf = c => c.cats || [c.group];
+const urlsOf = c => (c.urls && c.urls.length ? c.urls : [c.url]);
+/* base list narrowed by the selected country */
+function scoped() {
+  const b = baseList();
+  return state.country === 'All' ? b : b.filter(c => c.country === state.country);
+}
+function filtered() {
+  const q = state.q.trim().toLowerCase();
+  return scoped().filter(c =>
+    (state.cat === 'All' || catsOf(c).includes(state.cat)) &&
+    (!q || c.name.toLowerCase().includes(q) || catsOf(c).some(g => g.toLowerCase().includes(q))));
+}
+
+function render() {
+  $('#cntAll').textContent = allCh.length.toLocaleString();
+  $('#cntFav').textContent = [...state.favs].filter(id => byId.has(id)).length;
+  $('#cntRec').textContent = state.recents.filter(id => byId.has(id)).length;
+  const titles = { home: 'All channels', favorites: 'Favorites', recent: 'Recently watched' };
+  if (state.view === 'playlists') { renderPlaylists(); return; }
+  $('#viewTitle').textContent = titles[state.view];
+  renderCountry();
+  renderChips();
+  renderGrid();
+}
+
+function renderCountry() {
+  const sel = $('#countrySel');
+  const counts = new Map();
+  baseList().forEach(c => { if (c.country) counts.set(c.country, (counts.get(c.country) || 0) + 1); });
+  sel.hidden = !counts.size;
+  if (!counts.size || (state.country !== 'All' && !counts.has(state.country))) state.country = 'All';
+  if (!counts.size) return;
+  const total = [...counts.values()].reduce((a, b) => a + b, 0);
+  const opts = [...counts.entries()].map(([code, n]) => {
+    const m = state.countries[code] || {};
+    return { code, n, name: m.name || code, flag: m.flag || '' };
+  }).sort((a, b) => a.name.localeCompare(b.name));
+  sel.innerHTML = `<option value="All">All countries (${total.toLocaleString()})</option>` +
+    opts.map(o => `<option value="${esc(o.code)}">${o.flag} ${esc(o.name)} (${o.n})</option>`).join('');
+  sel.value = state.country;
+}
+
+function renderChips() {
+  const base = scoped();
+  const counts = new Map();
+  base.forEach(c => catsOf(c).forEach(g => counts.set(g, (counts.get(g) || 0) + 1)));
+  if (state.cat !== 'All' && !counts.has(state.cat)) state.cat = 'All';
+  const groups = [...counts.entries()].sort((a, b) => b[1] - a[1]);
+  $('#chips').innerHTML =
+    `<button class="chip ${state.cat === 'All' ? 'on' : ''}" data-cat="All">All<em>${base.length.toLocaleString()}</em></button>` +
+    groups.map(([g, n]) => `<button class="chip ${state.cat === g ? 'on' : ''}" data-cat="${esc(g)}">${esc(g)}<em>${n.toLocaleString()}</em></button>`).join('');
+}
+
+function renderGrid() {
+  const grid = $('#grid');
+  state.items = filtered();
+  state.rendered = 0;
+  grid.innerHTML = '';
+  grid.className = 'grid' + (state.settings.layout === 'rows' ? ' rows' : '');
+  $('#layGrid').classList.toggle('on', state.settings.layout !== 'rows');
+  $('#layRows').classList.toggle('on', state.settings.layout === 'rows');
+  const n = state.items.length;
+  $('#viewSub').textContent = `${n.toLocaleString()} channel${n === 1 ? '' : 's'}` + (state.q ? ` matching “${state.q}”` : '');
+  if (!n && state.loading) { grid.className = ''; return; }
+  if (!n) {
+    const msgs = {
+      favorites: ['heart', 'No favorites yet', 'Tap the heart on any channel to save it here.'],
+      recent: ['clock', 'Nothing watched yet', 'Channels you play will show up here.'],
+      home: ['search', state.q ? 'No results' : 'No channels', state.q ? 'Try a different search or category.' : 'Add a playlist to get started.']
+    }[state.view];
+    grid.className = '';
+    grid.innerHTML = `<div class="empty">${ic(msgs[0])}<h3>${msgs[1]}</h3><p>${msgs[2]}</p></div>`;
+    return;
+  }
+  appendMore();
+}
+
+function cardHTML(c, i) {
+  const fav = state.favs.has(c.id);
+  const playing = state.current && state.current.id === c.id;
+  const flag = (state.countries[c.country] || {}).flag;
+  return `<article class="card ${playing ? 'playing' : ''}" data-id="${esc(c.id)}" tabindex="0" role="button" aria-label="Play ${esc(c.name)}" style="--i:${i}">
+    <div class="thumb">${logoHTML(c)}<span class="live"><i></i>LIVE</span>${c.q ? `<span class="qtag">${esc(c.q)}</span>` : ''}
+      <button class="fav ${fav ? 'on' : ''}" data-fav="${esc(c.id)}" aria-label="${fav ? 'Remove from' : 'Add to'} favorites">${ic('heart')}</button>
+      <div class="play"><span>${ic('play', 'fill')}</span></div>
+      <div class="eq"><i></i><i></i><i></i></div></div>
+    <div class="meta"><h3>${esc(c.name)}</h3><p>${flag ? flag + ' ' : ''}${esc(c.group)}</p></div></article>`;
+}
+
+function appendMore() {
+  const slice = state.items.slice(state.rendered, state.rendered + PAGE);
+  if (!slice.length) return;
+  $('#grid').insertAdjacentHTML('beforeend', slice.map((c, i) => cardHTML(c, i % 12)).join(''));
+  state.rendered += slice.length;
+}
+new IntersectionObserver(es => {
+  if (es.some(e => e.isIntersecting) && state.rendered < state.items.length) appendMore();
+}, { rootMargin: '600px' }).observe($('#sentinel'));
+
+function markPlaying() {
+  $$('.card.playing').forEach(c => c.classList.remove('playing'));
+  if (state.current) { const el = $(`.card[data-id="${state.current.id}"]`); if (el) el.classList.add('playing'); }
+}
+
+/* ---------------- playlists view ---------------- */
+function renderPlaylists() {
+  const el = $('#plList');
+  if (!state.playlists.length) {
+    el.innerHTML = `<div class="empty">${ic('list')}<h3>No playlists</h3><p>Add one to start watching.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+        <button class="btn btn-primary" id="restoreApi">Add iptv-org catalog</button>
+        <button class="btn btn-ghost" id="restoreDemo">Restore demo channels</button></div></div>`;
+  } else {
+    el.innerHTML = state.playlists.map(p => `
+      <div class="pl-row"><div class="pl-ic">${ic(p.source === 'url' ? 'link' : p.source === 'file' ? 'upload' : (p.source === 'demo' || p.source === 'api') ? 'signal' : 'file')}</div>
+        <div><b>${esc(p.name)}</b><small>${p.channels.length.toLocaleString()} channels · ${p.source === 'url' ? esc(p.url) : p.source === 'api' ? 'iptv-org.github.io/api' : p.source}</small></div>
+        <div class="row-actions">
+          ${p.source === 'url' || p.source === 'api' ? `<button class="btn" data-refresh="${esc(p.id)}" aria-label="Refresh">${ic('refresh')}</button>` : ''}
+          <button class="btn btn-danger" data-del="${esc(p.id)}" aria-label="Delete">${ic('trash')}</button>
+        </div></div>`).join('');
+  }
+  $('#httpsOnly').checked = !!state.settings.httpsOnly;
+  updateApiMeta();
+  $('#thDark').classList.toggle('on', state.settings.theme === 'dark');
+  $('#thLight').classList.toggle('on', state.settings.theme === 'light');
+  $('#setGrid').classList.toggle('on', state.settings.layout !== 'rows');
+  $('#setRows').classList.toggle('on', state.settings.layout === 'rows');
+}
+
+/* ---------------- views ---------------- */
+function setView(v) {
+  state.view = v; state.cat = 'All';
+  $$('[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === v));
+  const browse = v !== 'playlists';
+  $('#browse').hidden = !browse;
+  $('#manage').hidden = browse;
+  $('#hero').hidden = !(v === 'home' && !state.current);
+  render();
+}
+
+/* ---------------- toast ---------------- */
+function toast(msg, type = 'ok') {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.innerHTML = ic(type === 'warn' ? 'alert' : 'check') + `<span>${esc(msg)}</span>`;
+  $('#toasts').appendChild(t);
+  setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 320); }, 3200);
+}
+
+/* ---------------- theme ---------------- */
+function applyTheme() {
+  const t = state.settings.theme;
+  document.documentElement.dataset.theme = t;
+  $('#themeIc').innerHTML = `<use href="#i-${t === 'dark' ? 'sun' : 'moon'}"/>`;
+  $('#metaTheme').content = t === 'dark' ? '#1b1b1b' : '#eef4fe';
+}
+
+/* =========================================================
+   PLAYER
+   ========================================================= */
+const video = $('#video'), player = $('#player');
+
+function isFullscreen() { return document.fullscreenElement || document.webkitFullscreenElement; }
+
+function teardown() {
+  clearTimeout(state.timer);
+  if (state.hls) { state.hls.destroy(); state.hls = null; }
+  try { video.pause(); } catch (e) {}
+  video.removeAttribute('src');
+  video.load();
+  $('#bQual').hidden = true;
+  $('#qMenu').hidden = true;
+}
+function setBuffer(on) { $('#pBuffer').classList.toggle('on', on); }
+function showError(msg) {
+  setBuffer(false);
+  $('#pErrMsg').textContent = msg || 'The stream could not be loaded. It may be offline or blocked by the provider.';
+  $('#pError').hidden = false;
+  player.classList.remove('idle');
+}
+function hideError() { $('#pError').hidden = true; }
+
+/* try the channel's next backup stream, or show the error when none are left */
+function failover(msg) {
+  const ch = state.current; if (!ch) return;
+  const urls = urlsOf(ch);
+  if (state.attempt + 1 < urls.length) {
+    toast(`Stream unavailable — trying backup ${state.attempt + 2}/${urls.length}`, 'warn');
+    loadStream(ch, state.attempt + 1);
+  } else showError(msg);
+}
+
+function loadStream(ch, attempt = 0) {
+  teardown(); hideError(); setBuffer(true); state.retries = 0; state.attempt = attempt;
+  setBadges(null);
+  const url = urlsOf(ch)[attempt];
+  // many community streams are dead: give up on a silent stream after 20s
+  state.timer = setTimeout(() => { if (video.readyState < 3) failover('The stream did not start in time. It may be offline or geo-blocked.'); }, 20000);
+  const hlsLike = !/\.(mp4|webm|ogv|mkv|mp3|aac|m4a)(\?|#|$)/i.test(url);
+  const nativeHls = video.canPlayType('application/vnd.apple.mpegurl');
+  const tryPlay = () => video.play().catch(() => syncPlayIcon());
+
+  if (hlsLike && window.Hls && Hls.isSupported()) {
+    const hls = new Hls({ lowLatencyMode: true, backBufferLength: 30, maxBufferLength: 30, enableWorker: true });
+    state.hls = hls;
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED, () => { buildQuality(hls.levels); tryPlay(); });
+    hls.on(Hls.Events.LEVEL_SWITCHED, (e, d) => setBadges(hls.levels[d.level]));
+    hls.on(Hls.Events.ERROR, (e, d) => {
+      if (!d.fatal) return;
+      const dead = d.details === Hls.ErrorDetails.MANIFEST_LOAD_ERROR || d.details === Hls.ErrorDetails.MANIFEST_PARSING_ERROR;
+      if (!dead && d.type === Hls.ErrorTypes.NETWORK_ERROR && state.retries < 2) { state.retries++; hls.startLoad(); }
+      else if (d.type === Hls.ErrorTypes.MEDIA_ERROR && state.retries < 3) { state.retries++; hls.recoverMediaError(); }
+      else failover(d.type === Hls.ErrorTypes.NETWORK_ERROR
+        ? 'Network error — the stream may be offline, geo-blocked, or the server blocks browser (CORS) access.'
+        : 'This stream uses a format the browser could not decode.');
+    });
+  } else if (!hlsLike || nativeHls) {
+    video.src = url; tryPlay();
+  } else if (hlsLike && !window.Hls) {
+    showError('The player library could not be loaded. Check your internet connection and reload.');
+  } else {
+    showError('Your browser cannot play this stream format.');
+  }
+}
+
+function buildQuality(levels) {
+  if (!levels || levels.length < 2) { $('#bQual').hidden = true; return; }
+  $('#bQual').hidden = false;
+  renderQualityMenu();
+}
+function renderQualityMenu() {
+  const hls = state.hls; if (!hls) return;
+  const cur = hls.autoLevelEnabled ? -1 : hls.currentLevel;
+  const items = hls.levels.map((l, i) => ({ i, h: l.height, b: l.bitrate })).sort((a, b) => b.h - a.h || b.b - a.b);
+  $('#qMenu').innerHTML =
+    `<button data-q="-1" class="${cur === -1 ? 'on' : ''}">Auto ${cur === -1 ? ic('check') : ''}</button>` +
+    items.map(x => `<button data-q="${x.i}" class="${cur === x.i ? 'on' : ''}">${x.h ? x.h + 'p' : Math.round(x.b / 1000) + ' kbps'} ${cur === x.i ? ic('check') : ''}</button>`).join('');
+}
+function setBadges(level) {
+  const b = [`<span class="badge">LIVE</span>`];
+  if (level && level.height) b.push(`<span class="badge">${level.height}p</span>`);
+  if (level && level.bitrate) b.push(`<span class="badge">${(level.bitrate / 1e6).toFixed(1)} Mbps</span>`);
+  $('#sBadges').innerHTML = b.join('');
+}
+
+function syncPlayIcon() {
+  $('#playIc').innerHTML = `<use href="#i-${video.paused ? 'play' : 'pause'}"/>`;
+}
+function syncVolumeUI() {
+  const v = video.muted || video.volume === 0;
+  $('#muteIc').innerHTML = `<use href="#i-${v ? 'mute' : 'vol'}"/>`;
+  $('#vol').value = video.muted ? 0 : video.volume;
+}
+function togglePlay() { if (!state.current) return; video.paused ? video.play().catch(() => {}) : video.pause(); }
+function toggleMute() { video.muted = !video.muted; if (!video.muted && video.volume === 0) video.volume = .5; state.settings.muted = video.muted; save(); }
+function toggleFs() {
+  if (isFullscreen()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
+  if (player.requestFullscreen) player.requestFullscreen().catch(() => {});
+  else if (player.webkitRequestFullscreen) player.webkitRequestFullscreen();
+  else if (video.webkitEnterFullscreen) video.webkitEnterFullscreen();
+}
+async function togglePip() {
+  try {
+    if (document.pictureInPictureElement) await document.exitPictureInPicture();
+    else await video.requestPictureInPicture();
+  } catch (e) { toast('Picture-in-picture is not available here.', 'warn'); }
+}
+
+video.addEventListener('play', syncPlayIcon);
+video.addEventListener('pause', () => { syncPlayIcon(); player.classList.remove('idle'); });
+video.addEventListener('playing', () => { clearTimeout(state.timer); setBuffer(false); hideError(); syncPlayIcon(); wakeControls(); });
+video.addEventListener('canplay', () => setBuffer(false));
+video.addEventListener('waiting', () => setBuffer(true));
+video.addEventListener('volumechange', syncVolumeUI);
+video.addEventListener('loadedmetadata', () => {
+  if (!state.hls && video.videoHeight) setBadges({ height: video.videoHeight });
+});
+video.addEventListener('error', () => { if (!state.hls && video.getAttribute('src')) failover(); });
+
+document.addEventListener('fullscreenchange', fsUI);
+document.addEventListener('webkitfullscreenchange', fsUI);
+function fsUI() { $('#fsIc').innerHTML = `<use href="#i-${isFullscreen() ? 'min' : 'max'}"/>`; }
+
+/* auto-hide controls */
+let idleT;
+function wakeControls() {
+  player.classList.remove('idle');
+  clearTimeout(idleT);
+  idleT = setTimeout(() => {
+    if (!video.paused && $('#qMenu').hidden && $('#pError').hidden) player.classList.add('idle');
+  }, 3000);
+}
+['pointermove', 'touchstart', 'keydown'].forEach(ev => player.addEventListener(ev, wakeControls, { passive: true }));
+player.addEventListener('click', e => {
+  if (e.target.closest('.pc, .menu, .p-error, input')) return;
+  if (player.classList.contains('idle')) { wakeControls(); return; }
+  togglePlay(); wakeControls();
+});
+player.addEventListener('dblclick', e => { if (!e.target.closest('.pc, .menu, .p-error, input')) toggleFs(); });
+
+/* control buttons */
+$('#bPlay').onclick = togglePlay;
+$('#bMute').onclick = toggleMute;
+$('#bFs').onclick = toggleFs;
+$('#bPip').onclick = togglePip;
+if (!document.pictureInPictureEnabled) $('#bPip').hidden = true;
+$('#bNext').onclick = () => step(1);
+$('#bPrev').onclick = () => step(-1);
+$('#skipBtn').onclick = () => step(1);
+$('#retryBtn').onclick = () => state.current && loadStream(state.current);
+$('#vol').oninput = e => { video.muted = false; video.volume = +e.target.value; state.settings.volume = video.volume; state.settings.muted = false; save(); };
+$('#bQual').onclick = e => { e.stopPropagation(); const m = $('#qMenu'); renderQualityMenu(); m.hidden = !m.hidden; };
+$('#qMenu').onclick = e => {
+  const b = e.target.closest('[data-q]'); if (!b || !state.hls) return;
+  state.hls.currentLevel = +b.dataset.q;
+  $('#qMenu').hidden = true;
+  toast(+b.dataset.q === -1 ? 'Quality: Auto' : 'Quality: ' + b.textContent.trim());
+};
+document.addEventListener('click', e => { if (!e.target.closest('#qMenu, #bQual')) $('#qMenu').hidden = true; });
+
+/* ---------------- channel selection ---------------- */
+function play(id, opts = {}) {
+  const ch = byId.get(id); if (!ch) return;
+  state.current = ch;
+  state.recents = [id, ...state.recents.filter(x => x !== id)].slice(0, 24);
+  save();
+  $('#hero').hidden = true;
+  $('#stage').hidden = false;
+  $('#pTitle').textContent = ch.name;
+  $('#pGroup').textContent = ch.group;
+  $('#sName').textContent = ch.name;
+  $('#sGroup').textContent = ch.group;
+  const holder = document.createElement('div');
+  holder.innerHTML = logoHTML(ch);
+  $('#sLogo').replaceWith(Object.assign(holder.firstChild, { id: 'sLogo' }));
+  updateFavBtn();
+  updateUpNext();
+  loadStream(ch);
+  markPlaying();
+  $('#cntRec').textContent = state.recents.filter(x => byId.has(x)).length;
+  document.title = ch.name + ' · Super IPTV';
+  if (opts.scroll !== false) window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (state.view === 'recent') { /* keep list stable while watching */ }
+}
+
+function navList() {
+  const f = state.view === 'playlists' ? allCh : filtered();
+  return f.length ? f : allCh;
+}
+function step(dir) {
+  const list = navList(); if (!list.length) return;
+  let i = list.findIndex(c => c.id === (state.current && state.current.id));
+  i = i < 0 ? 0 : (i + dir + list.length) % list.length;
+  play(list[i].id, { scroll: false });
+}
+function updateUpNext() {
+  const list = navList();
+  const i = list.findIndex(c => c.id === state.current.id);
+  const next = [];
+  for (let k = 1; k <= Math.min(8, list.length - 1); k++) next.push(list[(i + k + list.length) % list.length]);
+  $('#upList').innerHTML = next.length
+    ? next.map(c => `<button class="up-item" data-up="${c.id}">${logoHTML(c)}<div><b>${esc(c.name)}</b><span>${esc(c.group)}</span></div></button>`).join('')
+    : `<p style="color:var(--muted);font-size:14px">No other channels in this list.</p>`;
+}
+function updateFavBtn() {
+  const on = state.current && state.favs.has(state.current.id);
+  const b = $('#sFav');
+  b.classList.toggle('fav-on', !!on);
+  b.querySelector('span').textContent = on ? 'Favorited' : 'Favorite';
+}
+function toggleFav(id) {
+  if (state.favs.has(id)) { state.favs.delete(id); toast('Removed from favorites'); }
+  else { state.favs.add(id); toast('Added to favorites'); }
+  save();
+  $('#cntFav').textContent = [...state.favs].filter(x => byId.has(x)).length;
+  if (state.view === 'favorites') { renderChips(); renderGrid(); }
+  else $$(`[data-fav="${id}"]`).forEach(b => b.classList.toggle('on', state.favs.has(id)));
+  updateFavBtn();
+}
+
+/* =========================================================
+   EVENTS
+   ========================================================= */
+$('#grid').addEventListener('click', e => {
+  const f = e.target.closest('[data-fav]');
+  if (f) { e.stopPropagation(); toggleFav(f.dataset.fav); return; }
+  const c = e.target.closest('.card'); if (c) play(c.dataset.id);
+});
+$('#grid').addEventListener('keydown', e => {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('card')) { e.preventDefault(); play(e.target.dataset.id); }
+});
+$('#chips').addEventListener('click', e => {
+  const b = e.target.closest('[data-cat]'); if (!b) return;
+  state.cat = b.dataset.cat; renderChips(); renderGrid();
+});
+$('#upList').addEventListener('click', e => { const b = e.target.closest('[data-up]'); if (b) play(b.dataset.up, { scroll: false }); });
+$('#sFav').onclick = () => state.current && toggleFav(state.current.id);
+$('#sCopy').onclick = async () => {
+  if (!state.current) return;
+  try { await navigator.clipboard.writeText(state.current.url); toast('Stream URL copied'); }
+  catch (e) { toast('Could not copy to clipboard', 'warn'); }
+};
+$$('[data-view]').forEach(b => b.addEventListener('click', () => setView(b.dataset.view)));
+$('#heroPlay').onclick = () => {
+  const c = allCh[0];
+  if (c) play(c.id);
+  else if (state.loading) toast('Still loading the catalog — one moment…');
+  else openModal();
+};
+$('#countrySel').onchange = e => { state.country = e.target.value; state.cat = 'All'; renderChips(); renderGrid(); };
+$('#layGrid').onclick = () => { state.settings.layout = 'grid'; save(); renderGrid(); };
+$('#layRows').onclick = () => { state.settings.layout = 'rows'; save(); renderGrid(); };
+$('#setGrid').onclick = () => { state.settings.layout = 'grid'; save(); renderPlaylists(); };
+$('#setRows').onclick = () => { state.settings.layout = 'rows'; save(); renderPlaylists(); };
+$('#thDark').onclick = () => { state.settings.theme = 'dark'; save(); applyTheme(); renderPlaylists(); };
+$('#thLight').onclick = () => { state.settings.theme = 'light'; save(); applyTheme(); renderPlaylists(); };
+$('#themeBtn').onclick = () => { state.settings.theme = state.settings.theme === 'dark' ? 'light' : 'dark'; save(); applyTheme(); if (state.view === 'playlists') renderPlaylists(); };
+
+let qT;
+function applySearch(value) {
+  state.q = value;
+  if (state.view === 'playlists') setView('home'); else { renderChips(); renderGrid(); }
+}
+$('#q').addEventListener('input', e => {
+  clearTimeout(qT);
+  qT = setTimeout(() => applySearch(e.target.value), 120);
+});
+
+/* ---------------- voice search (Web Speech API) ---------------- */
+const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+const micBtn = $('#micBtn');
+let rec = null, listening = false;
+
+if (SpeechRec) { micBtn.hidden = false; micBtn.closest('.search').classList.add('has-mic'); }
+
+function voiceUI(on) {
+  micBtn.classList.toggle('on', on);
+  micBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  $('#voiceHint').hidden = !on;
+  if (on) { const t = $('#voiceText'); t.textContent = 'Listening… say a channel or category'; t.className = 'idle'; }
+}
+
+function stopVoice(cancel) { if (rec && listening) { try { cancel ? rec.abort() : rec.stop(); } catch (e) {} } }
+
+function startVoice() {
+  if (!SpeechRec) { toast('Voice search is not supported in this browser. Try Chrome, Edge or Safari.', 'warn'); return; }
+  if (listening) { stopVoice(); return; }
+
+  const r = new SpeechRec();
+  rec = r;
+  r.lang = navigator.language || 'en-US';
+  r.interimResults = true;
+  r.continuous = false;
+  r.maxAlternatives = 1;
+
+  const input = $('#q');
+  const before = input.value;
+  const wasMuted = video.muted;      // keep the TV audio out of the microphone
+  let finalText = '', shown = '', failed = false;
+
+  r.onstart = () => { listening = true; video.muted = true; voiceUI(true); };
+  r.onresult = e => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      const res = e.results[i];
+      if (res.isFinal) finalText += res[0].transcript; else interim += res[0].transcript;
+    }
+    shown = (finalText + interim).trim();
+    if (shown) { const t = $('#voiceText'); t.textContent = shown; t.className = ''; input.value = shown; }
+  };
+  r.onerror = e => {
+    failed = true;
+    const msg = {
+      'not-allowed': 'Microphone access is blocked — allow it in your browser’s site settings.',
+      'service-not-allowed': 'Voice search is not allowed here. Open the app over HTTPS or localhost.',
+      'audio-capture': 'No microphone was found.',
+      'network': 'Voice search needs an internet connection.',
+      'no-speech': 'Didn’t catch that — tap the mic and try again.',
+      'language-not-supported': 'Your language is not supported for voice search.'
+    }[e.error];
+    if (e.error !== 'aborted' && e.error !== 'no-speech') toast(msg || 'Voice search failed (' + e.error + ')', 'warn');
+    else if (e.error === 'no-speech') toast(msg, 'warn');
+  };
+  r.onend = () => {
+    listening = false; rec = null;
+    video.muted = wasMuted;
+    voiceUI(false);
+    const text = (finalText || shown).trim().replace(/[.?!,]+$/, '');
+    if (!text) { input.value = before; return; }
+    input.value = text;
+    clearTimeout(qT);
+    applySearch(text);
+    if (!state.items.length) toast(`No channels match “${text}”`, 'warn');
+    else if (!$('#browse').hidden) $('#browse').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  try { r.start(); }
+  catch (e) { listening = false; rec = null; voiceUI(false); toast('Could not start the microphone.', 'warn'); }
+}
+micBtn.onclick = startVoice;
+
+/* playlist manager actions */
+$('#manage').addEventListener('click', async e => {
+  const del = e.target.closest('[data-del]');
+  const ref = e.target.closest('[data-refresh]');
+  if (e.target.closest('#restoreDemo')) { addDemo(); reindex(); save(); render(); toast('Demo channels restored'); return; }
+  if (e.target.closest('#restoreApi') || e.target.closest('#reloadApi')) {
+    if (!state.playlists.some(p => p.source === 'api')) addApi();
+    await initApi(true);
+    return;
+  }
+  if (del) {
+    const id = del.dataset.del;
+    const p = state.playlists.find(x => x.id === id);
+    if (id === 'demo') state.demoRemoved = true;
+    if (p && p.source === 'api') { state.apiRemoved = true; state.apiRaw = null; idb.del('api-v1'); }
+    state.playlists = state.playlists.filter(x => x.id !== id);
+    reindex();
+    if (!state.loading) {
+      state.favs = new Set([...state.favs].filter(x => byId.has(x)));
+      state.recents = state.recents.filter(x => byId.has(x));
+    }
+    if (state.current && !byId.has(state.current.id)) { teardown(); state.current = null; $('#stage').hidden = true; }
+    save(); render(); toast('Playlist removed');
+  }
+  if (ref) {
+    const p = state.playlists.find(x => x.id === ref.dataset.refresh); if (!p) return;
+    if (p.source === 'api') { ref.disabled = true; await initApi(true); ref.disabled = false; return; }
+    ref.disabled = true;
+    try {
+      const txt = await fetchText(p.url);
+      const ch = parseM3U(txt);
+      if (!ch.length) throw new Error('No channels found in the playlist.');
+      p.channels = ch; p.added = Date.now();
+      reindex(); save(); render(); toast(`Refreshed — ${ch.length} channels`);
+    } catch (err) { toast(err.message || 'Refresh failed', 'warn'); }
+    ref.disabled = false;
+  }
+});
+$('#httpsOnly').onchange = e => {
+  state.settings.httpsOnly = e.target.checked; save();
+  applyApi(); render();
+  toast(e.target.checked ? 'Showing HTTPS streams only' : 'Including plain-HTTP streams (may be blocked)');
+};
+$('#resetBtn').onclick = async () => {
+  if (!confirm('Remove all playlists, favorites, cached catalog and settings from this browser?')) return;
+  try { localStorage.removeItem(KEY); } catch (e) {}
+  await idb.del('api-v1');
+  location.reload();
+};
+
+/* ---------------- add playlist modal ---------------- */
+let tab = 'url', pickedFile = null;
+const modal = $('#modal');
+function openModal() {
+  modal.hidden = false; setTab('url'); $('#mErr').hidden = true;
+  $('#plName').value = ''; $('#plUrl').value = ''; $('#plText').value = ''; pickedFile = null;
+  $('#dropText').textContent = 'Choose or drop a .m3u / .m3u8 file';
+  setTimeout(() => $('#plUrl').focus(), 50);
+}
+function closeModal() { modal.hidden = true; }
+function setTab(t) {
+  tab = t;
+  $$('#mTabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === t));
+  $$('[data-pane]').forEach(p => p.hidden = p.dataset.pane !== t);
+  $('#mErr').hidden = true;
+}
+$$('[data-open-modal]').forEach(b => b.addEventListener('click', openModal));
+$('#mClose').onclick = $('#mCancel').onclick = closeModal;
+modal.addEventListener('mousedown', e => { if (e.target === modal) closeModal(); });
+$('#mTabs').addEventListener('click', e => { const b = e.target.closest('[data-tab]'); if (b) setTab(b.dataset.tab); });
+$('#quick').addEventListener('click', e => {
+  const b = e.target.closest('[data-fill]'); if (!b) return;
+  $('#plUrl').value = b.dataset.fill;
+  if (!$('#plName').value) $('#plName').value = b.dataset.name || '';
+});
+
+function pickFile(f) { if (!f) return; pickedFile = f; $('#dropText').textContent = f.name; }
+$('#plFile').onchange = e => pickFile(e.target.files[0]);
+const drop = $('#drop');
+['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, e => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', e => pickFile(e.dataTransfer.files[0]));
+
+async function fetchText(url) {
+  let res;
+  try { res = await fetch(url, { cache: 'no-store' }); }
+  catch (e) { throw new Error('Could not reach that URL. The server may block browser requests (CORS) — download the file and use the File or Paste tab instead.'); }
+  if (!res.ok) throw new Error(`The server responded with ${res.status}.`);
+  return res.text();
+}
+
+$('#mSubmit').onclick = async () => {
+  const btn = $('#mSubmit'), err = $('#mErr');
+  err.hidden = true;
+  const label = btn.querySelector('span');
+  try {
+    let text = '', source = tab, url = '', name = $('#plName').value.trim();
+    btn.disabled = true; label.textContent = 'Loading…';
+    if (tab === 'url') {
+      url = $('#plUrl').value.trim();
+      if (!/^https?:\/\//i.test(url)) throw new Error('Enter a valid http(s) URL.');
+      text = await fetchText(url);
+      name = name || (new URL(url).hostname.replace(/^www\./, ''));
+    } else if (tab === 'file') {
+      if (!pickedFile) throw new Error('Choose a playlist file first.');
+      text = await pickedFile.text();
+      name = name || pickedFile.name.replace(/\.[^.]+$/, '');
+    } else {
+      text = $('#plText').value;
+      if (!text.trim()) throw new Error('Paste some M3U content first.');
+      name = name || 'Pasted playlist';
+    }
+    const channels = parseM3U(text);
+    if (!channels.length) throw new Error('No playable http(s) channels were found in that playlist.');
+    state.playlists.push({ id: hash(name + Date.now()), name, source, url, channels, added: Date.now() });
+    reindex(); save();
+    closeModal();
+    toast(`Added ${channels.length} channel${channels.length === 1 ? '' : 's'}`);
+    setView(state.view === 'playlists' ? 'playlists' : 'home');
+  } catch (e) {
+    err.textContent = e.message; err.hidden = false;
+  } finally {
+    btn.disabled = false; label.textContent = 'Add playlist';
+  }
+};
+
+/* ---------------- keyboard ---------------- */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && listening) { stopVoice(true); return; }
+  if (e.key === 'Escape' && !modal.hidden) { closeModal(); return; }
+  const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName) && document.activeElement.type !== 'range';
+  if (e.key === '/' && !typing && modal.hidden) { e.preventDefault(); $('#q').focus(); return; }
+  if (typing || !modal.hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+  if (e.key.toLowerCase() === 'v' && SpeechRec) { e.preventDefault(); startVoice(); return; }
+  if (!state.current) return;
+  switch (e.key.toLowerCase()) {
+    case ' ': case 'k': if (document.activeElement.classList.contains('card') || document.activeElement.tagName === 'BUTTON') { if (e.key === ' ') return; } e.preventDefault(); togglePlay(); break;
+    case 'f': toggleFs(); break;
+    case 'm': toggleMute(); break;
+    case 'l': toggleFav(state.current.id); break;
+    case 'arrowdown': case 'n': e.preventDefault(); step(1); break;
+    case 'arrowup': case 'p': e.preventDefault(); step(-1); break;
+  }
+});
+
+/* ---------------- boot ---------------- */
+load();
+reindex();
+applyTheme();
+video.volume = state.settings.volume;
+video.muted = !!state.settings.muted;
+$('#vol').value = video.muted ? 0 : video.volume;
+syncVolumeUI();
+initApi();   // hydrate the iptv-org catalog from cache, or fetch it (starts the loader synchronously)
+setView('home');
+})();
+</script>
+</body>
+</html>
